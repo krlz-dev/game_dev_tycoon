@@ -44,21 +44,28 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        // Table at the bottom
+        // Table at the bottom - larger and more prominent
         Positioned(
-          bottom: 60,
+          bottom: 40,
           child: Image.asset(
             'assets/images/table.png',
-            width: 200,
-            height: 200,
+            width: 280,
+            height: 280,
             fit: BoxFit.contain,
           ),
         ),
 
-        // PC on the table (moved up and to the right)
+        // Character sitting at desk
         Positioned(
-          bottom: 130, // Moved up from 100
-          left: screenWidth / 2 - 30, // Moved right from -50
+          bottom: 70,
+          right: screenWidth / 2 - 60,
+          child: _buildCharacterSprite(),
+        ),
+
+        // PC on the table (in front of character)
+        Positioned(
+          bottom: 120, // On the table surface
+          left: screenWidth / 2 - 40, // Slightly to the left of center
           child: ClipRect(
             child: Align(
               alignment: Alignment.topLeft,
@@ -74,13 +81,6 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
               ),
             ),
           ),
-        ),
-
-        // Character sitting at desk
-        Positioned(
-          bottom: 90,
-          right: screenWidth / 2 - 70,
-          child: _buildCharacterSprite(),
         ),
       ],
     );
