@@ -7,6 +7,7 @@ import '../config/game_constants.dart';
 import '../config/game_type_config.dart';
 import '../components/progress_bar_widget.dart';
 import '../components/dot_particle.dart';
+import '../components/workspace_widget.dart';
 
 /// Development screen where the game is being created
 class DevelopmentScreen extends StatefulWidget {
@@ -274,17 +275,10 @@ class _DevelopmentScreenState extends State<DevelopmentScreen>
                         ],
                       ),
                     ),
-                    // Space for future characters/content
+                    // Workspace with character, table, and PC
                     const Expanded(
                       child: Center(
-                        child: Text(
-                          '(Character area - Coming soon)',
-                          style: TextStyle(
-                            color: Colors.white30,
-                            fontSize: 14,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
+                        child: WorkspaceWidget(),
                       ),
                     ),
                   ],
