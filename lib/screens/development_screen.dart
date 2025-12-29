@@ -24,6 +24,11 @@ class _DevelopmentScreenState extends State<DevelopmentScreen>
   final Random _random = Random();
   DateTime? _lastUpdate;
 
+  // GlobalKeys for progress bars to track their positions
+  final GlobalKey _designBarKey = GlobalKey();
+  final GlobalKey _technologyBarKey = GlobalKey();
+  final GlobalKey _bugBarKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -86,18 +91,40 @@ class _DevelopmentScreenState extends State<DevelopmentScreen>
       controller.technologyBar,
       controller.bugBar,
     ];
-    final targetBar = bars[_random.nextInt(bars.length)];
+    final barKeys = [_designBarKey, _technologyBarKey, _bugBarKey];
+
+    final index = _random.nextInt(bars.length);
+    final targetBar = bars[index];
+    final targetKey = barKeys[index];
+
+    // Get the position of the target progress bar
+    final targetPosition = _getBarPosition(targetKey);
+    if (targetPosition == null) return; // Bar not yet rendered
+
+    // Get screen size
+    final screenSize = MediaQuery.of(context).size;
 
     setState(() {
       _particles.add(
         DotParticle(
           targetBar: targetBar,
+          targetPosition: targetPosition,
+          screenSize: screenSize,
           onReachTarget: () {
             controller.addProgressToBar(targetBar, targetBar.progressPerDot);
           },
         ),
       );
     });
+  }
+
+  Offset? _getBarPosition(GlobalKey key) {
+    final RenderBox? renderBox = key.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return null;
+
+    final position = renderBox.localToGlobal(Offset.zero);
+    // Return center-left of the bar
+    return Offset(position.dx + 50, position.dy + renderBox.size.height / 2);
   }
 
   void _stopTimers() {
@@ -231,17 +258,17 @@ class _DevelopmentScreenState extends State<DevelopmentScreen>
                       child: Column(
                         children: [
                           ProgressBarWidget(
-                            key: const ValueKey('design'),
+                            key: _designBarKey,
                             barData: controller.designBar,
                           ),
                           const SizedBox(height: 15),
                           ProgressBarWidget(
-                            key: const ValueKey('technology'),
+                            key: _technologyBarKey,
                             barData: controller.technologyBar,
                           ),
                           const SizedBox(height: 15),
                           ProgressBarWidget(
-                            key: const ValueKey('bugs'),
+                            key: _bugBarKey,
                             barData: controller.bugBar,
                           ),
                         ],

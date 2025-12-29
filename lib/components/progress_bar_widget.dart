@@ -37,7 +37,7 @@ class ProgressBarWidget extends StatelessWidget {
             color: Colors.black26,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: Color(barData.color).withOpacity(0.5),
+              color: Color(barData.color).withValues(alpha: 0.5),
               width: 2,
             ),
           ),
@@ -52,7 +52,7 @@ class ProgressBarWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Color(barData.color).withOpacity(0.6),
+                          Color(barData.color).withValues(alpha: 0.6),
                           Color(barData.color),
                         ],
                       ),

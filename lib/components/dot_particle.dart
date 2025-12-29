@@ -6,6 +6,8 @@ import '../models/progress_bar_data.dart';
 class DotParticle {
   final ProgressBarData targetBar;
   final VoidCallback onReachTarget;
+  final Offset targetPosition;
+  final Size screenSize;
 
   late double x;
   late double y;
@@ -20,6 +22,8 @@ class DotParticle {
   DotParticle({
     required this.targetBar,
     required this.onReachTarget,
+    required this.targetPosition,
+    required this.screenSize,
   }) {
     _initialize();
   }
@@ -30,26 +34,26 @@ class DotParticle {
 
     switch (startSide) {
       case 0: // Top
-        x = _random.nextDouble() * 400;
+        x = _random.nextDouble() * screenSize.width;
         y = 0;
         break;
       case 1: // Right
-        x = 400;
-        y = _random.nextDouble() * 800;
+        x = screenSize.width;
+        y = _random.nextDouble() * screenSize.height;
         break;
       case 2: // Bottom
-        x = _random.nextDouble() * 400;
-        y = 800;
+        x = _random.nextDouble() * screenSize.width;
+        y = screenSize.height;
         break;
       case 3: // Left
         x = 0;
-        y = _random.nextDouble() * 800;
+        y = _random.nextDouble() * screenSize.height;
         break;
     }
 
-    // Target is center-right of screen (where progress bars are)
-    targetX = 300 + _random.nextDouble() * 50;
-    targetY = 300 + _random.nextDouble() * 200;
+    // Target is the actual position of the progress bar
+    targetX = targetPosition.dx + _random.nextDouble() * 50;
+    targetY = targetPosition.dy;
 
     // Calculate velocity based on target bar's speed
     final distance = sqrt(pow(targetX - x, 2) + pow(targetY - y, 2));
@@ -86,7 +90,7 @@ class DotParticle {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Color(targetBar.color).withOpacity(0.6),
+              color: Color(targetBar.color).withValues(alpha: 0.6),
               blurRadius: 4,
               spreadRadius: 1,
             ),
