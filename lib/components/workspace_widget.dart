@@ -39,6 +39,8 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -48,25 +50,25 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
           child: Image.asset(
             'assets/images/table.png',
             width: 200,
-            height: 100,
+            height: 200,
             fit: BoxFit.contain,
           ),
         ),
 
-        // PC on the table
+        // PC on the table (moved up and to the right)
         Positioned(
-          bottom: 100,
-          left: MediaQuery.of(context).size.width / 2 - 50,
+          bottom: 130, // Moved up from 100
+          left: screenWidth / 2 - 30, // Moved right from -50
           child: ClipRect(
             child: Align(
               alignment: Alignment.topLeft,
               widthFactor: 0.25, // 1/4 of the image width (4 sprites)
               child: Transform.translate(
-                offset: Offset(-_pcFrame * 80.0, 0), // Shift to show different PC state
+                offset: Offset(-_pcFrame * 72.0, 0), // Precise: 72px per sprite
                 child: Image.asset(
                   'assets/images/pc.png',
-                  width: 320, // 4 sprites * 80px each
-                  height: 80,
+                  width: 288, // Exact: 4 sprites * 72px each
+                  height: 70,
                   fit: BoxFit.contain,
                 ),
               ),
@@ -76,8 +78,8 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
 
         // Character sitting at desk
         Positioned(
-          bottom: 80,
-          right: MediaQuery.of(context).size.width / 2 - 80,
+          bottom: 90,
+          right: screenWidth / 2 - 70,
           child: _buildCharacterSprite(),
         ),
       ],
@@ -85,15 +87,17 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
   }
 
   Widget _buildCharacterSprite() {
-    // Character sprite sheet is 4x4
+    // Character sprite sheet is 4x4 (380x592 pixels total)
+    // Each sprite is exactly 95x148 pixels
     // Rows 2-3 (index 2-3) contain sitting animations
     // We have 8 frames total for sitting (4 in row 2, 4 in row 3)
 
     final row = (_characterFrame < 4) ? 2 : 3; // Row 2 or 3
     final col = _characterFrame % 4; // Column 0-3
 
-    final spriteWidth = 100.0; // Approximate width of each sprite
-    final spriteHeight = 120.0; // Approximate height of each sprite
+    // Exact dimensions from character.png (380x592)
+    const spriteWidth = 95.0; // 380 / 4 = 95px
+    const spriteHeight = 148.0; // 592 / 4 = 148px
 
     return ClipRect(
       child: Align(
@@ -107,8 +111,8 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
           ),
           child: Image.asset(
             'assets/images/character.png',
-            width: spriteWidth * 4, // 4 columns
-            height: spriteHeight * 4, // 4 rows
+            width: 380, // Exact total width
+            height: 592, // Exact total height
             fit: BoxFit.contain,
           ),
         ),
