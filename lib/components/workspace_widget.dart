@@ -65,17 +65,17 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
         // PC on the table (with more distance from character)
         Positioned(
           bottom: 115, // On the table surface
-          left: screenWidth / 2 - 80, // Further to the left, away from character
+          left: screenWidth / 2 - 90, // Further to the left, away from character
           child: ClipRect(
             child: Align(
               alignment: Alignment.topLeft,
               widthFactor: 0.25, // 1/4 of the image width (4 sprites)
               child: Transform.translate(
-                offset: Offset(-_pcFrame * 72.0, 0), // Precise: 72px per sprite
+                offset: Offset(-_pcFrame * 72.0 * 1.4, 0), // Scaled: 72px per sprite * 1.4
                 child: Image.asset(
                   'assets/images/pc.png',
-                  width: 288, // Exact: 4 sprites * 72px each
-                  height: 70,
+                  width: 288 * 1.4, // Scaled: 4 sprites * 72px each * 1.4
+                  height: 70 * 1.4, // Scaled height
                   fit: BoxFit.contain,
                 ),
               ),
@@ -98,6 +98,7 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
     // Exact dimensions from character.png (380x592)
     const spriteWidth = 95.0; // 380 / 4 = 95px
     const spriteHeight = 148.0; // 592 / 4 = 148px
+    const scaleFactor = 1.4; // Scale up by 40% for better visibility
 
     return ClipRect(
       child: Align(
@@ -106,13 +107,13 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
         heightFactor: 0.25, // Show 1/4 of the height (one sprite)
         child: Transform.translate(
           offset: Offset(
-            -col * spriteWidth,
-            -row * spriteHeight,
+            -col * spriteWidth * scaleFactor,
+            -row * spriteHeight * scaleFactor,
           ),
           child: Image.asset(
             'assets/images/character.png',
-            width: 380, // Exact total width
-            height: 592, // Exact total height
+            width: 380 * scaleFactor, // Scaled total width
+            height: 592 * scaleFactor, // Scaled total height
             fit: BoxFit.contain,
           ),
         ),
