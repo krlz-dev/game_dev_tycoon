@@ -55,17 +55,10 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
           ),
         ),
 
-        // Character sitting at desk
+        // PC on the table - positioned higher and to the left
         Positioned(
-          bottom: 70,
-          right: screenWidth / 2 - 60,
-          child: _buildCharacterSprite(),
-        ),
-
-        // PC on the table (with more distance from character)
-        Positioned(
-          bottom: 115, // On the table surface
-          left: screenWidth / 2 - 90, // Further to the left, away from character
+          bottom: 135, // Raised higher on table surface
+          left: screenWidth / 2 - 110, // Further to the left
           child: ClipRect(
             child: Align(
               alignment: Alignment.topLeft,
@@ -81,6 +74,13 @@ class _WorkspaceWidgetState extends State<WorkspaceWidget> {
               ),
             ),
           ),
+        ),
+
+        // Character sitting behind and to the right of desk
+        Positioned(
+          bottom: 55, // Lowered so character sits behind desk
+          right: screenWidth / 2 - 80, // Further to the right
+          child: _buildCharacterSprite(),
         ),
       ],
     );
